@@ -249,6 +249,108 @@ If you'd like to start applications in Intellij Idea you need to either use [Env
 - http://localhost:9000/hystrix - Hystrix Dashboard (Turbine stream link: `http://turbine-stream-service:8080/turbine/turbine.stream`)
 - http://localhost:15672 - RabbitMq management (default login/password: guest/guest)
 
+## Pig CLI (Development Helper)
+
+To simplify local development, this project provides a small shell
+helper script called `pig`, located at the root of the repository.
+
+It acts as a lightweight CLI wrapper around Docker Compose.
+
+Instead of running:
+
+    docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+You can simply run:
+
+    ./pig dev
+
+------------------------------------------------------------------------
+
+### Running `pig` without `./`
+
+By default, scripts must be executed with:
+
+    ./pig dev
+
+To execute it without `./`, you have two options.
+
+------------------------------------------------------------------------
+
+### Option 1 --- Temporary PATH update (current session only)
+
+Inside the project directory:
+
+    export PATH="$PWD:$PATH"
+
+Now you can run:
+
+    pig dev
+
+This only applies to the current terminal session.
+
+------------------------------------------------------------------------
+
+### Option 2 --- Install `pig` as a global command (Recommended)
+
+You can make `pig` globally available on Linux and macOS without
+interfering with Docker or system commands.
+
+### Step 1 --- Create personal bin directory
+
+    mkdir -p ~/.local/bin
+
+### Step 2 --- Create a symbolic link (recommended)
+
+This keeps the script versioned in the project:
+
+    ln -s /full/path/to/piggymetrics/pig ~/.local/bin/pig
+
+Example:
+
+    ln -s ~/projects/piggymetrics/pig ~/.local/bin/pig
+
+### Step 3 --- Make it executable
+
+    chmod +x ~/.local/bin/pig
+
+### Step 4 --- Add \~/.local/bin to your PATH
+
+For macOS (zsh):
+
+    nano ~/.zshrc
+
+For Linux (bash):
+
+    nano ~/.bashrc
+
+Add:
+
+    export PATH="$HOME/.local/bin:$PATH"
+
+Reload your shell:
+
+    source ~/.zshrc
+    # or
+    source ~/.bashrc
+
+------------------------------------------------------------------------
+
+### Verify installation
+
+    which pig
+
+Expected output:
+
+    /home/youruser/.local/bin/pig
+
+Now you can run from anywhere:
+
+    pig dev
+    pig down
+    pig rebuild
+    pig logs
+    pig clean
+
 ## Contributions are welcome!
 
 PiggyMetrics is open source, and would greatly appreciate your help. Feel free to suggest and implement any improvements.
